@@ -1,6 +1,8 @@
 # import the pygame module, so you can use it
 import pygame
 
+import config as cfg
+
 from gameInit import gameInit
 from gameLoop import gameLoop
 
@@ -18,7 +20,7 @@ def initPygame():
     pygame.display.set_caption("Bored Games")
     
     # create a surface on screen that has the size of 240 x 180
-    pygame.display.set_mode((720,480))
+    pygame.display.set_mode((cfg.resolution_width,cfg.resolution_height))
     window = pygame.display.get_surface()
     return window
 
