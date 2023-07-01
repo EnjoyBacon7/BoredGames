@@ -5,6 +5,7 @@ import config as cfg
 
 from gameInit import gameInit
 from gameLoop import gameLoop
+from menus import mainMenu
 
 # ---------------------------------------------------------------------
 
@@ -30,6 +31,7 @@ def initPygame():
 def main():
      
     window = initPygame()
+    mainMenu(window)
 
     # Initialize game
     game = gameInit();
