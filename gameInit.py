@@ -1,3 +1,5 @@
+import pygame
+
 from dataclasses import dataclass
 
 @dataclass
@@ -9,6 +11,8 @@ class Game:
     posY: int
 
     map: list
+
+    sprites: dict = None
 
 
 def gameInit():
@@ -25,5 +29,16 @@ def gameInit():
         [1, 1, 1, 1, 1, 1, 1, 1, 1],
     ]
 
-    game = Game(0, 0, 0, 0, map)
+    game = Game(
+
+        0,
+        0,
+        0,
+        0,
+        map,
+        {
+            "floorTile": pygame.image.load("gameSprites/floorTile.png")
+        }
+        
+    )
     return game
