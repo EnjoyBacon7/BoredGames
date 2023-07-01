@@ -1,5 +1,5 @@
 from gameRender import renderGame
 
-def gameLoop(screen, game):
+def gameLoop(window, game):
     while True:
-        renderGame(screen, game)
+        renderGame(window, game)
