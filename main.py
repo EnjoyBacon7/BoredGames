@@ -18,21 +18,22 @@ def initPygame():
     pygame.display.set_caption("Bored Games")
     
     # create a surface on screen that has the size of 240 x 180
-    screen = pygame.display.set_mode((720,480))
-    return screen
+    pygame.display.set_mode((720,480))
+    window = pygame.display.get_surface()
+    return window
 
 # ---------------------------------------------------------------------
 
 # define a main function
 def main():
      
-    screen = initPygame()
+    window = initPygame()
 
     # Initialize game
     game = gameInit();
 
     # Start the game loop
-    gameLoop(screen, game)
+    gameLoop(window, game)
 
 # ---------------------------------------------------------------------
 
