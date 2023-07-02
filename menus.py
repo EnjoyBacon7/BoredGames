@@ -1,5 +1,6 @@
 import pygame
 import config as cfg
+import input as inp
 
 def mainMenu(window):
     
@@ -14,9 +15,7 @@ def mainMenu(window):
     while True:
         renderMainMenu(window, images)
         pygame.display.flip()
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                return
+        inp.handleMainMenuInput()
 
 
 def renderMainMenu(window, images):
