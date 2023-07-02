@@ -1,6 +1,5 @@
 import pygame
 import config as cfg
-import input as inp
 
 def mainMenu(window):
     
