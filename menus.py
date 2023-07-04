@@ -66,6 +66,7 @@ def handleMainMenuInput(images, btn_states):
         btn_states["quit"] = 0
 
 def renderMainMenu(window, images, btn_states):
+    # Pump events for windows
     pygame.event.pump()
     window.fill((255, 97, 91))
 
