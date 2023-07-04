@@ -41,8 +41,8 @@ def handleMainMenuInput(images, btn_states):
             btn_states["play"] = 0
         elif (pygame.mouse.get_pressed()[0] == 1):
             btn_states["play"] = 1
-        else:
-            btn_states["play"] = 0
+    else:
+        btn_states["play"] = 0
     
     if (mouseInBounds(images["option_Up"], cfg.option_x, cfg.option_y)):
         if (pygame.mouse.get_pressed()[0] == 0 and btn_states["option"] == 1):
@@ -51,8 +51,8 @@ def handleMainMenuInput(images, btn_states):
             btn_states["option"] = 0
         elif (pygame.mouse.get_pressed()[0] == 1):
             btn_states["option"] = 1
-        else:
-            btn_states["option"] = 0
+    else:
+        btn_states["option"] = 0
 
     if (mouseInBounds(images["quit_Up"], cfg.quit_x, cfg.quit_y)):
         if (pygame.mouse.get_pressed()[0] == 0 and btn_states["quit"] == 1):
@@ -62,8 +62,8 @@ def handleMainMenuInput(images, btn_states):
             btn_states["quit"] = 0
         elif (pygame.mouse.get_pressed()[0] == 1):
             btn_states["quit"] = 1
-        else:
-            btn_states["quit"] = 0
+    else:
+        btn_states["quit"] = 0
 
 def renderMainMenu(window, images, btn_states):
     pygame.event.pump()
