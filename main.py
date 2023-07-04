@@ -34,7 +34,7 @@ def main():
     mainMenu(window)
 
     # Initialize game
-    game = gameInit();
+    game = gameInit()
 
     # Start the game loop
     gameLoop(window, game)
