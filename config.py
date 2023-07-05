@@ -20,3 +20,6 @@ quit_y = 62
 
 back_x = 80
 back_y = 62
+
+mute_x = 80
+mute_y = 50
