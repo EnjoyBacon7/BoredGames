@@ -117,11 +117,9 @@ def renderOptionMenu(window, menuVars):
     pygame.event.pump()
     window.fill((255, 97, 91))
     
-    backImg = menuVars["btnsOM"][0]["images"][menuVars["btnsOM"][0]["state"]]
-
-    window.blit(backImg, (menuVars["btnsOM"][0]["pos"][0] - backImg.get_width()/2, menuVars["btnsOM"][0]["pos"][1] - backImg.get_height()/2))
-
-
+    renderButton(window, menuVars["btnsOM"][0])
+    renderButton(window, menuVars["btnsOM"][1])
+    renderButton(window, menuVars["btnsOM"][2])
 
 
 def switchMuteBtnStates(menuVars):
@@ -153,7 +151,7 @@ def mouseInBounds(image, pos):
 
 # Handles button state
 def handleBtnState(btnInfo, function = None):
-    if (mouseInBounds(btnInfo["images"][0], btnInfo["pos"])):
+    if (mouseInBounds(btnInfo["images"][0], btnInfo["pos"]) and btnInfo["active"]):
         if (pygame.mouse.get_pressed()[0] == 0 and btnInfo["state"] == 1):
             # Here to do stuff
             if function:
@@ -162,7 +160,10 @@ def handleBtnState(btnInfo, function = None):
         elif (pygame.mouse.get_pressed()[0] == 1):
             btnInfo["state"] = 1
     else:
-        btnInfo["state"] = 0    if(btnInfo["active"] == False):
+        btnInfo["state"] = 0
+
+def renderButton(window, btnInfo):
+    if(btnInfo["active"] == False):
         pass
     else:
         image = btnInfo["images"][btnInfo["state"]]
