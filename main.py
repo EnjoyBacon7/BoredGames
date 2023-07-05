@@ -31,10 +31,10 @@ def initPygame():
 def main():
      
     window = initPygame()
-    mainMenu(window)
+    #mainMenu(window)
 
     # Initialize game
-    game = gameInit();
+    game = gameInit()
 
     # Start the game loop
     gameLoop(window, game)
