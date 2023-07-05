@@ -13,18 +13,34 @@ def renderGame(window, game):
 # ---------------------------------------------------------------------
 def checkPosition(game):
     for player in game.players:
-        game.map[player.posY][player.posX] = player.number
+        x = player.posX
+        y = player.posY
+        if 0 <= y < len(game.map) and 0 <= x < len(game.map[y]):
+            game.map[y][x] = player.number
 
-def checkInput(game,nplayer):
-    key=pygame.key.get_pressed()
-    if key[pygame.K_LEFT]:
-        game.players[nplayer].posX -= 1
-    if key[pygame.K_RIGHT]:
-        game.players[nplayer].posX += 1
-    if key[pygame.K_UP]:
-        game.players[nplayer].posY -= 1
-    if key[pygame.K_DOWN]:
-        game.players[nplayer].posY += 1
+def checkInput(game, nplayer):
+    for event in pygame.event.get():
+        if event.type == pygame.KEYUP:
+            key = event.key
+            player = game.players[nplayer]
+
+            # Store previous position
+            prevX = player.posX
+            prevY = player.posY
+
+            # Update current position
+            if key == pygame.K_LEFT and player.posX > 0:
+                player.posX -= 1
+            if key == pygame.K_RIGHT and player.posX < len(game.map[0]) - 1:
+                player.posX += 1
+            if key == pygame.K_UP and player.posY > 0:
+                player.posY -= 1
+            if key == pygame.K_DOWN and player.posY < len(game.map) - 1:
+                player.posY += 1
+
+            # Set previous position to 0
+            game.map[prevY][prevX] = 0
+
     
     #Borner les valeurs avec la taille de la map
 
