@@ -7,16 +7,16 @@ menu_scale = 8
 
 # Main Menu object Placement in percent
 
-play_x = (80/100)*resolution_width
-play_y = (38/100)*resolution_height
+play_x = 80
+play_y = 38
 
-option_x = (80/100)*resolution_width
-option_y = (50/100)*resolution_height
+option_x = 80
+option_y = 50
 
-quit_x = (80/100)*resolution_width
-quit_y = (62/100)*resolution_height
+quit_x = 80
+quit_y = 62
 
 # Option Menu object Placement in percent
 
-back_x = (80/100)*resolution_width
-back_y = (62/100)*resolution_height
+back_x = 80
+back_y = 62
