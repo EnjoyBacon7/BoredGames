@@ -115,6 +115,13 @@ def renderOptionMenu(window, menuVars):
 
 
 
+def switchMuteBtnStates(menuVars):
+    if (menuVars["btnsOM"][1]["active"]):
+        menuVars["btnsOM"][1]["active"] = False
+        menuVars["btnsOM"][2]["active"] = True
+    else:
+        menuVars["btnsOM"][1]["active"] = True
+        menuVars["btnsOM"][2]["active"] = False
 
 
 
