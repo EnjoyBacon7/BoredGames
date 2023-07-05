@@ -69,9 +69,13 @@ def renderMainMenu(window, images, btn_states):
     pygame.event.pump()
     window.fill((255, 97, 91))
     
-    window.blit(images["play"][btn_states["play"]], (cfg.play_x - images["play"][btn_states["play"]].get_width() /2, cfg.play_y - images["play"][btn_states["play"]].get_height()/2))
-    window.blit(images["option"][btn_states["option"]], (cfg.option_x - images["option"][btn_states["option"]].get_width() /2, cfg.option_y - images["option"][btn_states["option"]].get_height()/2))
-    window.blit(images["quit"][btn_states["quit"]], (cfg.quit_x - images["quit"][btn_states["quit"]].get_width() /2, cfg.quit_y - images["quit"][btn_states["quit"]].get_height()/2))
+    playImg = images["play"][btn_states["play"]]
+    optionImg = images["option"][btn_states["option"]]
+    quitImg = images["quit"][btn_states["quit"]]
+
+    window.blit(playImg, (cfg.play_x - playImg.get_width()/2, cfg.play_y - playImg.get_height()/2))
+    window.blit(optionImg, (cfg.option_x - optionImg.get_width()/2, cfg.option_y - optionImg.get_height()/2))
+    window.blit(quitImg, (cfg.quit_x - quitImg.get_width()/2, cfg.quit_y - quitImg.get_height()/2))
 
 # ---------------------------------------------------------------------
 # Option Menu
@@ -118,7 +122,9 @@ def renderOptionMenu(window, images, btn_states):
     pygame.event.pump()
     window.fill((255, 97, 91))
     
-    window.blit(images["back"][btn_states["back"]], (cfg.back_x - images["back"][btn_states["back"]].get_width() /2, cfg.back_y - images["back"][btn_states["back"]].get_height()/2))
+    backImg = images["back"][btn_states["back"]]
+
+    window.blit(backImg, (cfg.back_x - backImg.get_width() /2, cfg.back_y - backImg.get_height()/2))
 
 # ---------------------------------------------------------------------
 # Functions useful to all menus
