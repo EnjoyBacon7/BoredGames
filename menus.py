@@ -106,7 +106,7 @@ def optionMenu(window, menuVars):
 
 
 def handleOptionMenuInput(window, menuVars):
-    handleBtnState(menuVars["btnsOM"][0], lambda: mainMenu(window, menuVars))
+    handleBtnState(menuVars["btnsOM"][0], lambda: (mainMenu(window, menuVars)))
 
 
 def renderOptionMenu(window, menuVars):
