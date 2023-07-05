@@ -1,130 +1,112 @@
 import pygame
 import config as cfg
 
+# ---------------------------------------------------------------------
+# Menus Initialization
+# ---------------------------------------------------------------------
 
-def mainMenu(window):
+def menuInit():
 
-    # Load images for main menu
-    images = {
-        "play": [pygame.image.load("gameSprites/play_Up.png"), pygame.image.load("gameSprites/play_Down.png")],
-        "option": [pygame.image.load("gameSprites/option_Up.png"), pygame.image.load("gameSprites/option_Down.png")],
-        "quit": [pygame.image.load("gameSprites/quit_Up.png"), pygame.image.load("gameSprites/quit_Down.png")]
+    def percentToPos(percent, axis):
+        if axis == "x":
+            return int(percent * cfg.resolution_width / 100)
+        elif axis == "y":
+            return int(percent * cfg.resolution_height / 100)
+
+    # Button data is stored like this: [up image, down image, state, x, y]
+    menuVars = {
+        "btnsMM": [
+            { 
+                "images" : (scaleImage(pygame.image.load("gameSprites/play_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/play_Down.png"), cfg.menu_scale)),
+                "state"  : 0,
+                "pos"    : (percentToPos(cfg.play_x, "x"), percentToPos(cfg.play_y, "y")),
+            },
+            {
+                "images" : (scaleImage(pygame.image.load("gameSprites/option_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/option_Down.png"), cfg.menu_scale)),
+                "state"  : 0,
+                "pos"    : (percentToPos(cfg.option_x, "x"), percentToPos(cfg.option_y, "y")),
+            },
+            {
+                "images" : (scaleImage(pygame.image.load("gameSprites/quit_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/quit_Down.png"), cfg.menu_scale)),
+                "state"  : 0,
+                "pos"    : (percentToPos(cfg.quit_x, "x"), percentToPos(cfg.quit_y, "y")),
+            },
+        ],
+
+        "btnsOM": [
+            {
+                "images" : (scaleImage(pygame.image.load("gameSprites/back_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/back_Down.png"), cfg.menu_scale)),
+                "state"  : 0,
+                "pos"    : (percentToPos(cfg.back_x, "x"), percentToPos(cfg.back_y, "y")),
+            },
+        ],
     }
+    return menuVars
 
-    # initialize button states
-    btn_states = {
-        "play": 0,
-        "option": 0,
-        "quit": 0
-    }
 
-    # Scale and transform images
-    for image in images:
-        images[image][0] = scaleImage(images[image][0], cfg.menu_scale)
-        images[image][1] = scaleImage(images[image][1], cfg.menu_scale)
+# ---------------------------------------------------------------------
+# Main Menu
+# ---------------------------------------------------------------------
 
+def mainMenu(window, menuVars):
     # Handle input and render main menu
     while True:
-        handleMainMenuInput(window, images, btn_states)
-        renderMainMenu(window, images, btn_states)
+        handleMainMenuInput(window, menuVars)
+        renderMainMenu(window, menuVars)
         pygame.display.flip()
 
 
-def handleMainMenuInput(window, images, btn_states):
+def handleMainMenuInput(window, menuVars):
+    # Play Button
+    handleBtnState(menuVars["btnsMM"][0])
+    # Option Button
+    handleBtnState(menuVars["btnsMM"][1], lambda: optionMenu(window, menuVars))
+    # Quit Button
+    handleBtnState(menuVars["btnsMM"][2], lambda: (pygame.quit(), exit()))
 
-    if (mouseInBounds(images["play"][0], cfg.play_x, cfg.play_y)):
-        if (pygame.mouse.get_pressed()[0] == 0 and btn_states["play"] == 1):
-            # Here to do stuff
-
-            btn_states["play"] = 0
-        elif (pygame.mouse.get_pressed()[0] == 1):
-            btn_states["play"] = 1
-    else:
-        btn_states["play"] = 0
-    
-    if (mouseInBounds(images["option"][0], cfg.option_x, cfg.option_y)):
-        if (pygame.mouse.get_pressed()[0] == 0 and btn_states["option"] == 1):
-            # Here to do stuff
-            optionMenu(window)
-
-            btn_states["option"] = 0
-        elif (pygame.mouse.get_pressed()[0] == 1):
-            btn_states["option"] = 1
-    else:
-        btn_states["option"] = 0
-
-    if (mouseInBounds(images["quit"][0], cfg.quit_x, cfg.quit_y)):
-        if (pygame.mouse.get_pressed()[0] == 0 and btn_states["quit"] == 1):
-            # Here to do stuff
-            pygame.quit()
-            exit()
-            btn_states["quit"] = 0
-        elif (pygame.mouse.get_pressed()[0] == 1):
-            btn_states["quit"] = 1
-    else:
-        btn_states["quit"] = 0
-
-def renderMainMenu(window, images, btn_states):
+def renderMainMenu(window, menuVars):
     # Pump events for windows
     pygame.event.pump()
     window.fill((255, 97, 91))
     
-    playImg = images["play"][btn_states["play"]]
-    optionImg = images["option"][btn_states["option"]]
-    quitImg = images["quit"][btn_states["quit"]]
+    playImg = menuVars["btnsMM"][0]["images"][menuVars["btnsMM"][0]["state"]]
+    optionImg = menuVars["btnsMM"][1]["images"][menuVars["btnsMM"][1]["state"]]
+    quitImg = menuVars["btnsMM"][2]["images"][menuVars["btnsMM"][2]["state"]]
 
-    window.blit(playImg, (cfg.play_x - playImg.get_width()/2, cfg.play_y - playImg.get_height()/2))
-    window.blit(optionImg, (cfg.option_x - optionImg.get_width()/2, cfg.option_y - optionImg.get_height()/2))
-    window.blit(quitImg, (cfg.quit_x - quitImg.get_width()/2, cfg.quit_y - quitImg.get_height()/2))
+    window.blit(playImg, (menuVars["btnsMM"][0]["pos"][0] - playImg.get_width()/2, menuVars["btnsMM"][0]["pos"][1] - playImg.get_height()/2))
+    window.blit(optionImg, (menuVars["btnsMM"][1]["pos"][0] - optionImg.get_width()/2, menuVars["btnsMM"][1]["pos"][1] - optionImg.get_height()/2))
+    window.blit(quitImg, (menuVars["btnsMM"][2]["pos"][0] - quitImg.get_width()/2, menuVars["btnsMM"][2]["pos"][1] - quitImg.get_height()/2))
 
 # ---------------------------------------------------------------------
 # Option Menu
+# ---------------------------------------------------------------------
 
-def optionMenu(window):
-
-    # Load images for main menu
-    images = {
-        "back": [pygame.image.load("gameSprites/back_Up.png"), pygame.image.load("gameSprites/back_Down.png")],
-    }
-
-    # initialize button states
-    btn_states = {
-        "back": 0
-    }
-
-    # Scale and transform images
-    for image in images:
-        images[image][0] = scaleImage(images[image][0], cfg.menu_scale)
-        images[image][1] = scaleImage(images[image][1], cfg.menu_scale)
-
+def optionMenu(window, menuVars):
     # Handle input and render main menu
-    back = False
-    while not back:
-        back = handleOptionMenuInput(images, btn_states)
-        renderOptionMenu(window, images, btn_states)
+    while True:
+        handleOptionMenuInput(window, menuVars)
+        renderOptionMenu(window, menuVars)
         pygame.display.flip()
 
 
-def handleOptionMenuInput(images, btn_states):
+def handleOptionMenuInput(window, menuVars):
+    handleBtnState(menuVars["btnsOM"][0], lambda: mainMenu(window, menuVars))
 
-    if (mouseInBounds(images["back"][0], cfg.back_x, cfg.back_y)):
-        if (pygame.mouse.get_pressed()[0] == 0 and btn_states["back"] == 1):
-            # Here to do stuff
-            return True
-            btn_states["back"] = 0
-        elif (pygame.mouse.get_pressed()[0] == 1):
-            btn_states["back"] = 1
-    else:
-        btn_states["back"] = 0
 
-def renderOptionMenu(window, images, btn_states):
+def renderOptionMenu(window, menuVars):
     # Pump events for windows
     pygame.event.pump()
     window.fill((255, 97, 91))
     
-    backImg = images["back"][btn_states["back"]]
+    backImg = menuVars["btnsOM"][0]["images"][menuVars["btnsOM"][0]["state"]]
 
-    window.blit(backImg, (cfg.back_x - backImg.get_width() /2, cfg.back_y - backImg.get_height()/2))
+    window.blit(backImg, (menuVars["btnsOM"][0]["pos"][0] - backImg.get_width()/2, menuVars["btnsOM"][0]["pos"][1] - backImg.get_height()/2))
+
+
+
+
+
+
 
 # ---------------------------------------------------------------------
 # Functions useful to all menus
@@ -135,10 +117,23 @@ def scaleImage(image, scale):
 
 
 # checks if mouse is in bounds of image at x, y position
-def mouseInBounds(image, x, y):
+def mouseInBounds(image, pos):
     mouse_pos = pygame.mouse.get_pos()
 
-    if (mouse_pos[0] > x - image.get_width()/2 and mouse_pos[0] < x + image.get_width()/2):
-        if (mouse_pos[1] > y - image.get_height()/2 and mouse_pos[1] < y + image.get_height()/2):
+    if (mouse_pos[0] > pos[0] - image.get_width()/2 and mouse_pos[0] < pos[0] + image.get_width()/2):
+        if (mouse_pos[1] > pos[1] - image.get_height()/2 and mouse_pos[1] < pos[1] + image.get_height()/2):
             return True
     return False
+
+# Handles button state
+def handleBtnState(btnInfo, function = None):
+    if (mouseInBounds(btnInfo["images"][0], btnInfo["pos"])):
+        if (pygame.mouse.get_pressed()[0] == 0 and btnInfo["state"] == 1):
+            # Here to do stuff
+            if function:
+                function()
+            btnInfo["state"] = 0
+        elif (pygame.mouse.get_pressed()[0] == 1):
+            btnInfo["state"] = 1
+    else:
+        btnInfo["state"] = 0
