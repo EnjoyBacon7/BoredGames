@@ -159,4 +159,8 @@ def handleBtnState(btnInfo, function = None):
         elif (pygame.mouse.get_pressed()[0] == 1):
             btnInfo["state"] = 1
     else:
-        btnInfo["state"] = 0
+        btnInfo["state"] = 0    if(btnInfo["active"] == False):
+        pass
+    else:
+        image = btnInfo["images"][btnInfo["state"]]
+        window.blit(image, (btnInfo["pos"][0] - image.get_width()/2, btnInfo["pos"][1] - image.get_height()/2))
