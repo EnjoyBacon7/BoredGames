@@ -39,6 +39,14 @@ def menuInit():
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.back_x, "x"), percentToPos(cfg.back_y, "y")),
             },
+            {
+                "images" : (scaleImage(pygame.image.load("gameSprites/mute_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/mute_Down.png"), cfg.menu_scale)),
+                "state"  : 0,
+            },
+            {
+                "images" : (scaleImage(pygame.image.load("gameSprites/unmute_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/unMute_Down.png"), cfg.menu_scale)),
+                "state"  : 0,
+            },
         ],
     }
     return menuVars
