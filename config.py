@@ -15,3 +15,5 @@ option_y = (60/100)*resolution_height
 
 quit_x = (80/100)*resolution_width
 quit_y = (70/100)*resolution_height
+back_x = (80/100)*resolution_width
+back_y = (62/100)*resolution_height
