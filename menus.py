@@ -69,27 +69,21 @@ def renderMainMenu(window, images, btn_states):
     # Pump events for windows
     pygame.event.pump()
     window.fill((255, 97, 91))
-
+    
     if (btn_states["play"] == 1):
-        window.blit(images["play_Down"], ((cfg.play_x/100)*cfg.resolution_width - images["play_Down"].get_width() /
-                    2, (cfg.play_y/100)*cfg.resolution_height - images["play_Down"].get_height()/2))
+        window.blit(images["play_Down"], (cfg.play_x - images["play_Down"].get_width() /2, cfg.play_y - images["play_Down"].get_height()/2))
     else:
-        window.blit(images["play_Up"], ((cfg.play_x/100)*cfg.resolution_width - images["play_Up"].get_width() /
-                    2, (cfg.play_y/100)*cfg.resolution_height - images["play_Up"].get_height()/2))
+        window.blit(images["play_Up"], (cfg.play_x - images["play_Up"].get_width() /2, cfg.play_y - images["play_Up"].get_height()/2))
 
     if (btn_states["option"] == 1):
-        window.blit(images["option_Down"], ((cfg.option_x/100)*cfg.resolution_width - images["option_Down"].get_width() /
-                    2, (cfg.option_y/100)*cfg.resolution_height - images["option_Down"].get_height()/2))
+        window.blit(images["option_Down"], (cfg.option_x - images["option_Down"].get_width() /2, cfg.option_y - images["option_Down"].get_height()/2))
     else:
-        window.blit(images["option_Up"], ((cfg.option_x/100)*cfg.resolution_width - images["option_Up"].get_width() /
-                    2, (cfg.option_y/100)*cfg.resolution_height - images["option_Up"].get_height()/2))
+        window.blit(images["option_Up"], (cfg.option_x - images["option_Up"].get_width() /2, cfg.option_y - images["option_Up"].get_height()/2))
 
     if (btn_states["quit"] == 1):
-        window.blit(images["quit_Down"], ((cfg.quit_x/100)*cfg.resolution_width - images["quit_Down"].get_width() /
-                    2, (cfg.quit_y/100)*cfg.resolution_height - images["quit_Down"].get_height()/2))
+        window.blit(images["quit_Down"], (cfg.quit_x - images["quit_Down"].get_width() /2, cfg.quit_y - images["quit_Down"].get_height()/2))
     else:
-        window.blit(images["quit_Up"], ((cfg.quit_x/100)*cfg.resolution_width - images["quit_Up"].get_width() /
-                    2, (cfg.quit_y/100)*cfg.resolution_height - images["quit_Up"].get_height()/2))
+        window.blit(images["quit_Up"], (cfg.quit_x - images["quit_Up"].get_width() /2, cfg.quit_y - images["quit_Up"].get_height()/2))
 
 # ---------------------------------------------------------------------
 # Option Menu
@@ -106,7 +100,7 @@ def scaleImage(image, scale):
 def mouseInBounds(image, x, y):
     mouse_pos = pygame.mouse.get_pos()
 
-    if (mouse_pos[0] > (x/100)*cfg.resolution_width - image.get_width()/2 and mouse_pos[0] < (x/100)*cfg.resolution_width + image.get_width()/2):
-        if (mouse_pos[1] > (y/100)*cfg.resolution_height - image.get_height()/2 and mouse_pos[1] < (y/100)*cfg.resolution_height + image.get_height()/2):
+    if (mouse_pos[0] > x - image.get_width()/2 and mouse_pos[0] < x + image.get_width()/2):
+        if (mouse_pos[1] > y - image.get_height()/2 and mouse_pos[1] < y + image.get_height()/2):
             return True
     return False
