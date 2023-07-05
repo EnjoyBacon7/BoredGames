@@ -1,5 +1,5 @@
-resolution_height = 1080
-resolution_width = 1920
+resolution_height = 720
+resolution_width = 1080
 
 # Menu object scaling
 
