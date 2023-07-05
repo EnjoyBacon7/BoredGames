@@ -20,16 +20,19 @@ def menuInit():
                 "images" : (scaleImage(pygame.image.load("gameSprites/play_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/play_Down.png"), cfg.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.play_x, "x"), percentToPos(cfg.play_y, "y")),
+                "active" : True,
             },
             {
                 "images" : (scaleImage(pygame.image.load("gameSprites/option_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/option_Down.png"), cfg.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.option_x, "x"), percentToPos(cfg.option_y, "y")),
+                "active" : True,
             },
             {
                 "images" : (scaleImage(pygame.image.load("gameSprites/quit_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/quit_Down.png"), cfg.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.quit_x, "x"), percentToPos(cfg.quit_y, "y")),
+                "active" : True,
             },
         ],
 
@@ -38,16 +41,19 @@ def menuInit():
                 "images" : (scaleImage(pygame.image.load("gameSprites/back_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/back_Down.png"), cfg.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.back_x, "x"), percentToPos(cfg.back_y, "y")),
+                "active" : True,
             },
             {
                 "images" : (scaleImage(pygame.image.load("gameSprites/mute_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/mute_Down.png"), cfg.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.mute_x, "x"), percentToPos(cfg.mute_y, "y")),
+                "active" : True,
             },
             {
                 "images" : (scaleImage(pygame.image.load("gameSprites/unmute_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/unMute_Down.png"), cfg.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.mute_x, "x"), percentToPos(cfg.mute_y, "y")),
+                "active" : False,
             },
         ],
     }
