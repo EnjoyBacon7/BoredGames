@@ -1,4 +1,7 @@
 import pygame
+import time
+
+import clientSettings as cs
 import config as cfg
 
 # ---------------------------------------------------------------------
@@ -7,11 +10,12 @@ import config as cfg
 
 def menuInit():
 
+    # Get absolute position from percentage
     def percentToPos(percent, axis):
         if axis == "x":
-            return int(percent * cfg.resolution_width / 100)
+            return int(percent * cs.resolution_width / 100)
         elif axis == "y":
-            return int(percent * cfg.resolution_height / 100)
+            return int(percent * cs.resolution_height / 100)
 
     # Button data is stored like this: [up image, down image, state, x, y]
     menuVars = {
@@ -43,6 +47,7 @@ def menuInit():
                 "pos"    : (percentToPos(cfg.back_x, "x"), percentToPos(cfg.back_y, "y")),
                 "active" : True,
             },
+            # Mute button is toggle. It has two states, one for muted and one for unmuted.
             {
                 "images" : (scaleImage(pygame.image.load("gameSprites/mute_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/mute_Down.png"), cfg.menu_scale)),
                 "state"  : 0,
@@ -56,6 +61,8 @@ def menuInit():
                 "active" : False,
             },
         ],
+        # Clock is used to set fps
+        "clock" : pygame.time.Clock(),
     }
     return menuVars
 
@@ -64,14 +71,26 @@ def menuInit():
 # Main Menu
 # ---------------------------------------------------------------------
 
+# Main Menu loop
 def mainMenu(window, menuVars):
     # Handle input and render main menu
     while True:
+
+        # Start frame timer
+        start_time = time.perf_counter()
+
+        # Menu functions
         handleMainMenuInput(window, menuVars)
         renderMainMenu(window, menuVars)
         pygame.display.flip()
+        menuVars["clock"].tick(cs.fps)
 
+        # End frame timer and print frame time
+        end_time = time.perf_counter()
+        frame_time = (end_time - start_time) * 1e3
+        print(f"Frame time (MM): {frame_time:.2f} milliseconds")
 
+# Handle clicks and button states
 def handleMainMenuInput(window, menuVars):
     # Play Button
     handleBtnState(menuVars["btnsMM"][0])
@@ -80,6 +99,7 @@ def handleMainMenuInput(window, menuVars):
     # Quit Button
     handleBtnState(menuVars["btnsMM"][2], lambda: (pygame.quit(), exit()))
 
+# Render the menu using the button data
 def renderMainMenu(window, menuVars):
     # Pump events for windows
     pygame.event.pump()
@@ -97,31 +117,44 @@ def renderMainMenu(window, menuVars):
 # Option Menu
 # ---------------------------------------------------------------------
 
+# Option Menu loop
 def optionMenu(window, menuVars):
     # Handle input and render main menu
     while True:
+
+        # Start frame timer
+        start_time = time.perf_counter()
+
+        # Menu functions
         handleOptionMenuInput(window, menuVars)
         renderOptionMenu(window, menuVars)
         pygame.display.flip()
+        menuVars["clock"].tick(cs.fps)
 
+        # End frame timer and print frame time
+        end_time = time.perf_counter()
+        frame_time = (end_time - start_time) * 1e3
+        print(f"Frame time (OM): {frame_time:.2f} milliseconds")
 
+# Handle clicks and button states
 def handleOptionMenuInput(window, menuVars):
     handleBtnState(menuVars["btnsOM"][0], lambda: (mainMenu(window, menuVars)))
     handleBtnState(menuVars["btnsOM"][1], lambda: (switchMuteBtnStates(menuVars)))
     handleBtnState(menuVars["btnsOM"][2], lambda: (switchMuteBtnStates(menuVars)))
 
-
-
+# Render the menu using the button data
 def renderOptionMenu(window, menuVars):
     # Pump events for windows
     pygame.event.pump()
     window.fill((255, 97, 91))
     
+    # Back Button
     renderButton(window, menuVars["btnsOM"][0])
+    # Mute Button
     renderButton(window, menuVars["btnsOM"][1])
     renderButton(window, menuVars["btnsOM"][2])
 
-
+# Toggle mute button states
 def switchMuteBtnStates(menuVars):
     if (menuVars["btnsOM"][1]["active"]):
         menuVars["btnsOM"][1]["active"] = False
@@ -131,16 +164,14 @@ def switchMuteBtnStates(menuVars):
         menuVars["btnsOM"][2]["active"] = False
 
 
-
 # ---------------------------------------------------------------------
 # Functions useful to all menus
 
-
+# Scales pygame image by multiplying width and height by scale
 def scaleImage(image, scale):
     return pygame.transform.scale(image, (int(image.get_width()*scale), int(image.get_height()*scale)))
 
-
-# checks if mouse is in bounds of image at x, y position
+# checks if mouse is in bounds of image at x, y position (origin is center of image)
 def mouseInBounds(image, pos):
     mouse_pos = pygame.mouse.get_pos()
 
@@ -149,7 +180,7 @@ def mouseInBounds(image, pos):
             return True
     return False
 
-# Handles button state
+# Handles button state (action on mouse up)
 def handleBtnState(btnInfo, function = None):
     if (mouseInBounds(btnInfo["images"][0], btnInfo["pos"]) and btnInfo["active"]):
         if (pygame.mouse.get_pressed()[0] == 0 and btnInfo["state"] == 1):
@@ -162,6 +193,7 @@ def handleBtnState(btnInfo, function = None):
     else:
         btnInfo["state"] = 0
 
+# Renders individual button based on state
 def renderButton(window, btnInfo):
     if(btnInfo["active"] == False):
         pass

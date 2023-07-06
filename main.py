@@ -1,6 +1,7 @@
 # import the pygame module, so you can use it
 import pygame
 
+import clientSettings as cs
 import config as cfg
 
 from gameInit import gameInit
@@ -21,7 +22,7 @@ def initPygame():
     pygame.display.set_caption("Bored Games")
     
     # create a surface on screen that has the size of 240 x 180
-    pygame.display.set_mode((cfg.resolution_width,cfg.resolution_height))
+    pygame.display.set_mode((cs.resolution_width,cs.resolution_height))
     window = pygame.display.get_surface()
     return window
 
@@ -29,8 +30,10 @@ def initPygame():
 
 # define a main function
 def main():
-     
+
+
     window = initPygame()
+
     menuVars = menuInit()
     mainMenu(window, menuVars)
 
