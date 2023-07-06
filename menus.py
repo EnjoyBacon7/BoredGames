@@ -1,4 +1,5 @@
 import pygame
+import clientSettings as cs
 import config as cfg
 
 # ---------------------------------------------------------------------
@@ -9,9 +10,9 @@ def menuInit():
 
     def percentToPos(percent, axis):
         if axis == "x":
-            return int(percent * cfg.resolution_width / 100)
+            return int(percent * cs.resolution_width / 100)
         elif axis == "y":
-            return int(percent * cfg.resolution_height / 100)
+            return int(percent * cs.resolution_height / 100)
 
     # Button data is stored like this: [up image, down image, state, x, y]
     menuVars = {
