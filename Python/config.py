@@ -16,3 +16,8 @@ back_y = 62
 
 mute_x = 80
 mute_y = 50
+
+# Game Variables
+
+unit = 16
+zoom = 2
