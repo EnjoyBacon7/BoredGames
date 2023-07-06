@@ -1,7 +1,3 @@
-# Menu object scaling
-
-menu_scale = 8
-
 # Main Menu object Placement in percent
 
 play_x = 80
