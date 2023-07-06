@@ -4,8 +4,6 @@ import pygame
 import clientSettings as cs
 import config as cfg
 
-from gameInit import gameInit
-from gameLoop import gameLoop
 from menus import mainMenu, menuInit
 
 # ---------------------------------------------------------------------
@@ -36,12 +34,6 @@ def main():
 
     menuVars = menuInit()
     mainMenu(window, menuVars)
-
-    # Initialize game
-    game = gameInit()
-
-    # Start the game loop
-    gameLoop(window, game)
 
 # ---------------------------------------------------------------------
 

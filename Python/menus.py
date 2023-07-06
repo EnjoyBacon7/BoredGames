@@ -4,6 +4,9 @@ import time
 import clientSettings as cs
 import config as cfg
 
+from gameInit import gameInit
+from gameLoop import gameLoop
+
 # ---------------------------------------------------------------------
 # Menus Initialization
 # ---------------------------------------------------------------------
@@ -21,19 +24,19 @@ def menuInit():
     menuVars = {
         "btnsMM": [
             { 
-                "images" : (scaleImage(pygame.image.load("gameSprites/play_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/play_Down.png"), cfg.menu_scale)),
+                "images" : (scaleImage(pygame.image.load("Content/Images/play_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("Content/Images/play_Down.png"), cfg.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.play_x, "x"), percentToPos(cfg.play_y, "y")),
                 "active" : True,
             },
             {
-                "images" : (scaleImage(pygame.image.load("gameSprites/option_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/option_Down.png"), cfg.menu_scale)),
+                "images" : (scaleImage(pygame.image.load("Content/Images/option_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("Content/Images/option_Down.png"), cfg.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.option_x, "x"), percentToPos(cfg.option_y, "y")),
                 "active" : True,
             },
             {
-                "images" : (scaleImage(pygame.image.load("gameSprites/quit_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/quit_Down.png"), cfg.menu_scale)),
+                "images" : (scaleImage(pygame.image.load("Content/Images/quit_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("Content/Images/quit_Down.png"), cfg.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.quit_x, "x"), percentToPos(cfg.quit_y, "y")),
                 "active" : True,
@@ -42,20 +45,20 @@ def menuInit():
 
         "btnsOM": [
             {
-                "images" : (scaleImage(pygame.image.load("gameSprites/back_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/back_Down.png"), cfg.menu_scale)),
+                "images" : (scaleImage(pygame.image.load("Content/Images/back_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("Content/Images/back_Down.png"), cfg.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.back_x, "x"), percentToPos(cfg.back_y, "y")),
                 "active" : True,
             },
             # Mute button is toggle. It has two states, one for muted and one for unmuted.
             {
-                "images" : (scaleImage(pygame.image.load("gameSprites/mute_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/mute_Down.png"), cfg.menu_scale)),
+                "images" : (scaleImage(pygame.image.load("Content/Images/mute_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("Content/Images/mute_Down.png"), cfg.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.mute_x, "x"), percentToPos(cfg.mute_y, "y")),
                 "active" : True,
             },
             {
-                "images" : (scaleImage(pygame.image.load("gameSprites/unmute_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("gameSprites/unMute_Down.png"), cfg.menu_scale)),
+                "images" : (scaleImage(pygame.image.load("Content/Images/unmute_Up.png"), cfg.menu_scale), scaleImage(pygame.image.load("Content/Images/unMute_Down.png"), cfg.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.mute_x, "x"), percentToPos(cfg.mute_y, "y")),
                 "active" : False,
@@ -93,7 +96,7 @@ def mainMenu(window, menuVars):
 # Handle clicks and button states
 def handleMainMenuInput(window, menuVars):
     # Play Button
-    handleBtnState(menuVars["btnsMM"][0])
+    handleBtnState(menuVars["btnsMM"][0], lambda: (gameLoop(window, gameInit())))
     # Option Button
     handleBtnState(menuVars["btnsMM"][1], lambda: optionMenu(window, menuVars))
     # Quit Button
