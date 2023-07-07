@@ -3,8 +3,6 @@ import pygame
 import config as cfg
 
 def renderGame(window, game):
-    # Handle events so the window doesn't freeze
-    pygame.event.pump()
 
     # Render Functions
     window.fill((230,255, 255))
@@ -20,7 +18,7 @@ def renderBoard(window, game):
     window.blit(scaled_map, (0, 0))
 
 def renderPlayer(window, game):
-    scaled_player = pygame.transform.scale(game.sprites["player1"], (cfg.zoom * 50 * 8, cfg.zoom * 50 * 16))
+    scaled_player = pygame.transform.scale(game.sprites["player1"], (cfg.zoom * 8, cfg.zoom * 16))
     window.blit(scaled_player, (coordsToPixels(game.posX, game.posY)))
 
 def coordsToPixels(x, y):
