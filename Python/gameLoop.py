@@ -30,7 +30,7 @@ def gameLoop(window, game):
         end_time = time.perf_counter()
         frame_time = (end_time - start_time) * 1e3
         game.frame_time = frame_time
-        print(f"Frame time (MM): {frame_time:.2f} milliseconds")
+        print(f"Frame time (MM): {frame_time:.2f} milliseconds. FPS: {fpsClock.get_fps():.2f}")
 
 # Handle movement and input
 def checkInput(game):
