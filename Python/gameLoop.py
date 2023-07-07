@@ -12,6 +12,12 @@ def gameLoop(window, game):
 
     while True:
 
+        # Handle
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
         # Start frame timer
         start_time = time.perf_counter()
 
