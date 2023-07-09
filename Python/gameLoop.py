@@ -8,8 +8,6 @@ from gameRender import renderGame
 
 def gameLoop(window, game):
 
-    fpsClock = pygame.time.Clock()
-
     while True:
 
         # Handle events
@@ -23,14 +21,12 @@ def gameLoop(window, game):
         # Menu functions
         checkInput(game)
         renderGame(window, game)
-        fpsClock.tick(cs.fps)
+        game.fpsClock.tick(cs.fps)
 
         # End frame timer
         end_time = time.perf_counter()
-        frame_time = (end_time - start_time) * 1e3
-        game.frame_time = frame_time
-        if(cs.debugFPS): 
-            print(f"Frame time (MM): {frame_time:.2f} milliseconds. FPS: {fpsClock.get_fps():.2f}")
+        game.frame_time = (end_time - start_time) * 1e3
+        game.frame_rate = int(game.fpsClock.get_fps())
 
 # Handle movement and input
 def checkInput(game):
