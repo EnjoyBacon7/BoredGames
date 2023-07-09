@@ -55,9 +55,10 @@ def getPlayerCollisions(game):
     for corner in playerCorners:
         if(corner[0] < 0 or corner[0] > 50 or corner[1] < 0 or corner[1] > 50):
             collisions.append(False)
-            pass
-        if(game.collisions[int(corner[1])][int(corner[0])] == "2"):
+            continue
+        elif(game.collisions[int(corner[1])][int(corner[0])] == "2"):
             collisions.append(False)
-            pass
+            continue
         collisions.append(True)
+    game.player_collisions = collisions
     return collisions
