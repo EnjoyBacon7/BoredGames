@@ -29,7 +29,6 @@ def initPygame():
 # define a main function
 def main():
 
-
     window = initPygame()
 
     menuVars = menuInit()
