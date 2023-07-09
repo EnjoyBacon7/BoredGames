@@ -1,5 +1,6 @@
 # import the pygame module, so you can use it
 import pygame
+import cProfile
 
 import clientSettings as cs
 import config as cfg
@@ -40,4 +41,4 @@ def main():
 # (if you import this as a module then nothing is executed)
 if __name__=="__main__":
     # call the main function
-    main()
+    cProfile.run('main()')
