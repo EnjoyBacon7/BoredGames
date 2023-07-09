@@ -31,10 +31,7 @@ def gameInit():
 
     sprites = {
         "floorTile": pygame.image.load("Content/Images/floorTile.png").convert_alpha(),
-        "player1": pygame.image.load("Content/Images/player1.png").convert_alpha(),
-        "player2": pygame.image.load("Content/Images/player2.png").convert_alpha(),
-        "player3": pygame.image.load("Content/Images/player3.png").convert_alpha(),
-        "player4": pygame.image.load("Content/Images/player4.png").convert_alpha(),
+        "player": pygame.image.load("Content/Images/player1.png").convert_alpha(),
     }
     
     game = Game(0, 0, 1, 1, map, collisions, sprites, 0)

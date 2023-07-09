@@ -57,9 +57,9 @@ def checkInput(game):
 def handlePlayerCollisions(game):
     playerCorners = [
         (game.posX, game.posY),
-        (game.posX + game.sprites["player1"].get_width()/cfg.unit, game.posY),
-        (game.posX, game.posY + game.sprites["player1"].get_height()/cfg.unit),
-        (game.posX + game.sprites["player1"].get_width()/cfg.unit, game.posY + game.sprites["player1"].get_height()/cfg.unit)]
+        (game.posX + game.sprites["player"].get_width()/cfg.unit, game.posY),
+        (game.posX, game.posY + game.sprites["player"].get_height()/cfg.unit),
+        (game.posX + game.sprites["player"].get_width()/cfg.unit, game.posY + game.sprites["player"].get_height()/cfg.unit)]
     for corner in playerCorners:
         if(corner[0] < 0 or corner[0] > 50 or corner[1] < 0 or corner[1] > 50):
             return True
