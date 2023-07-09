@@ -69,24 +69,42 @@ def menuInit():
     }
     return menuVars
 
-
+# ---------------------------------------------------------------------	
+# Menu Handler
 # ---------------------------------------------------------------------
-# Main Menu
-# ---------------------------------------------------------------------
 
-# Main Menu loop
-def mainMenu(window, menuVars):
+def menuHandler(window, menuVars):
+
+    curMenu = "mainMenu"
     # Handle input and render main menu
     while True:
+        # Handle events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
 
         # Start frame timer
         start_time = time.perf_counter()
 
         # Menu functions
-        handleMainMenuInput(window, menuVars)
-        renderMainMenu(window, menuVars)
+        if(curMenu == "mainMenu"):
+            action = handleMainMenuInput(menuVars)
+            renderMainMenu(window, menuVars)
+        elif(curMenu == "optionMenu"):
+            action = handleOptionMenuInput(menuVars)
+            renderOptionMenu(window, menuVars)
         pygame.display.flip()
-        menuVars["clock"].tick(cs.fps)
+
+        # Handle action
+        if (action == "play"):
+            game = gameInit()
+            gameLoop(window, game)
+        elif (action == "optionMenu"):
+            curMenu = "optionMenu"
+        elif (action == "mainMenu"):
+            curMenu = "mainMenu"
+        elif (action == "quit"):
+            pygame.quit()
 
         # End frame timer and print frame time
         end_time = time.perf_counter()
@@ -94,19 +112,23 @@ def mainMenu(window, menuVars):
         if (cs.debugFPS):
             print(f"Frame time (MM): {frame_time:.2f} milliseconds. FPS: {menuVars['clock'].get_fps():.2f}")
 
+# ---------------------------------------------------------------------
+# Main Menu
+# ---------------------------------------------------------------------
+
 # Handle clicks and button states
-def handleMainMenuInput(window, menuVars):
-    # Play Button
-    handleBtnState(menuVars["btnsMM"][0], lambda: (gameLoop(window, gameInit())))
-    # Option Button
-    handleBtnState(menuVars["btnsMM"][1], lambda: optionMenu(window, menuVars))
-    # Quit Button
-    handleBtnState(menuVars["btnsMM"][2], lambda: (pygame.quit(), exit()))
+def handleMainMenuInput(menuVars):
+
+    if (handleBtnState(menuVars["btnsMM"][0])):
+        return "play"
+    if (handleBtnState(menuVars["btnsMM"][1])):
+        return "optionMenu"
+    if (handleBtnState(menuVars["btnsMM"][2])):
+        return "quit"
 
 # Render the menu using the button data
 def renderMainMenu(window, menuVars):
-    # Pump events for windows
-    pygame.event.pump()
+
     window.fill((255, 97, 91))
     
     playImg = menuVars["btnsMM"][0]["images"][menuVars["btnsMM"][0]["state"]]
@@ -121,36 +143,18 @@ def renderMainMenu(window, menuVars):
 # Option Menu
 # ---------------------------------------------------------------------
 
-# Option Menu loop
-def optionMenu(window, menuVars):
-    # Handle input and render main menu
-    while True:
-
-        # Start frame timer
-        start_time = time.perf_counter()
-
-        # Menu functions
-        handleOptionMenuInput(window, menuVars)
-        renderOptionMenu(window, menuVars)
-        pygame.display.flip()
-        menuVars["clock"].tick(cs.fps)
-
-        # End frame timer and print frame time
-        end_time = time.perf_counter()
-        frame_time = (end_time - start_time) * 1e3
-        if (cs.debugFPS):
-            print(f"Frame time (MM): {frame_time:.2f} milliseconds. FPS: {menuVars['clock'].get_fps():.2f}")
-
 # Handle clicks and button states
-def handleOptionMenuInput(window, menuVars):
-    handleBtnState(menuVars["btnsOM"][0], lambda: (mainMenu(window, menuVars)))
-    handleBtnState(menuVars["btnsOM"][1], lambda: (switchMuteBtnStates(menuVars)))
-    handleBtnState(menuVars["btnsOM"][2], lambda: (switchMuteBtnStates(menuVars)))
+def handleOptionMenuInput(menuVars):
+    if(handleBtnState(menuVars["btnsOM"][0])):
+        return "mainMenu"
+    if(handleBtnState(menuVars["btnsOM"][1])):
+        switchMuteBtnStates(menuVars)
+    if(handleBtnState(menuVars["btnsOM"][2])):
+        switchMuteBtnStates(menuVars)
 
 # Render the menu using the button data
 def renderOptionMenu(window, menuVars):
-    # Pump events for windows
-    pygame.event.pump()
+
     window.fill((255, 97, 91))
     
     # Back Button
@@ -185,18 +189,19 @@ def mouseInBounds(image, pos):
             return True
     return False
 
-# Handles button state (action on mouse up)
-def handleBtnState(btnInfo, function = None):
+# Handles button state (True on mouse up)
+def handleBtnState(btnInfo):
     if (mouseInBounds(btnInfo["images"][0], btnInfo["pos"]) and btnInfo["active"]):
         if (pygame.mouse.get_pressed()[0] == 0 and btnInfo["state"] == 1):
             # Here to do stuff
-            if function:
-                function()
             btnInfo["state"] = 0
+            return True
         elif (pygame.mouse.get_pressed()[0] == 1):
             btnInfo["state"] = 1
+            return False
     else:
         btnInfo["state"] = 0
+        return False
 
 # Renders individual button based on state
 def renderButton(window, btnInfo):
