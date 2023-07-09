@@ -20,3 +20,7 @@ mute_y = 50
 # Game Variables
 
 unit = 16
+
+# Camera Variables
+
+padding = 32
