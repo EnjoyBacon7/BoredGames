@@ -5,3 +5,7 @@ resolution_width = 1920
 menu_scale = 8
 
 fps = 144
+
+# Game Variables
+
+zoom = 2

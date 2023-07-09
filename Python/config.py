@@ -20,4 +20,3 @@ mute_y = 50
 # Game Variables
 
 unit = 16
-zoom = 2
