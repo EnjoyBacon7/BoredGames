@@ -12,7 +12,7 @@ def gameLoop(window, game):
 
     while True:
 
-        # Handle
+        # Handle events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
