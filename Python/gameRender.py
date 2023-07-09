@@ -3,6 +3,8 @@ import pygame
 import clientSettings as cs
 import config as cfg
 
+from debug import debugRender
+
 def renderGame(window, game):
 
     # Camera
@@ -12,6 +14,10 @@ def renderGame(window, game):
     window.fill((230,255, 255))
     renderBoard(window, game)
     renderPlayer(window, game)
+
+    # Debug
+    if(cs.debugOverlay):
+        debugRender(window, game)
 
     pygame.display.flip()
 
