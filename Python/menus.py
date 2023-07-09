@@ -109,7 +109,7 @@ def menuHandler(window, menuVars):
         # End frame timer and print frame time
         end_time = time.perf_counter()
         frame_time = (end_time - start_time) * 1e3
-        if (cs.debugFPS):
+        if (cs.debugMenuFPS):
             print(f"Frame time (MM): {frame_time:.2f} milliseconds. FPS: {menuVars['clock'].get_fps():.2f}")
 
 # ---------------------------------------------------------------------

@@ -14,4 +14,4 @@ zoom = 2
 
 # Debug
 
-debugFPS = True
+debugOverlay = False
