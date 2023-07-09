@@ -16,7 +16,7 @@ class Game:
     collisions: list
     sprites: dict
 
-    fpsClock:float = pygame.time.Clock()A
+    fpsClock:float = pygame.time.Clock()
 
     # Debug variables
     frame_time: float = 0.0
