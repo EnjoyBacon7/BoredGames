@@ -15,3 +15,4 @@ zoom = 2
 # Debug
 
 debugOverlay = False
+debugMenuFPS = False
