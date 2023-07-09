@@ -4,7 +4,7 @@ import pygame
 import clientSettings as cs
 import config as cfg
 
-from menus import mainMenu, menuInit
+from menus import menuInit, menuHandler
 
 # ---------------------------------------------------------------------
 
@@ -33,7 +33,7 @@ def main():
     window = initPygame()
 
     menuVars = menuInit()
-    mainMenu(window, menuVars)
+    menuHandler(window, menuVars)
 
 # ---------------------------------------------------------------------
 
