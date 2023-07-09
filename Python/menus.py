@@ -91,7 +91,8 @@ def mainMenu(window, menuVars):
         # End frame timer and print frame time
         end_time = time.perf_counter()
         frame_time = (end_time - start_time) * 1e3
-        print(f"Frame time (MM): {frame_time:.2f} milliseconds. FPS: {menuVars['clock'].get_fps():.2f}")
+        if (cs.debugFPS):
+            print(f"Frame time (MM): {frame_time:.2f} milliseconds. FPS: {menuVars['clock'].get_fps():.2f}")
 
 # Handle clicks and button states
 def handleMainMenuInput(window, menuVars):
@@ -137,7 +138,8 @@ def optionMenu(window, menuVars):
         # End frame timer and print frame time
         end_time = time.perf_counter()
         frame_time = (end_time - start_time) * 1e3
-        print(f"Frame time (MM): {frame_time:.2f} milliseconds. FPS: {menuVars['clock'].get_fps():.2f}")
+        if (cs.debugFPS):
+            print(f"Frame time (MM): {frame_time:.2f} milliseconds. FPS: {menuVars['clock'].get_fps():.2f}")
 
 # Handle clicks and button states
 def handleOptionMenuInput(window, menuVars):
