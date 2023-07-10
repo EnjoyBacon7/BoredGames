@@ -41,6 +41,14 @@ def checkInput(game):
         game.posY -= movement
     if(key_states[pygame.K_s] and collisions[2] and collisions[3]):
         game.posY += movement
+    
+    # zooming with numpad 1 and 3
+    if(key_states[pygame.K_KP1]):
+        game.zoom_level -= 0.05
+    if(key_states[pygame.K_KP3]):
+        game.zoom_level += 0.05
+    cs.zoom = 2 ** game.zoom_level
+
 
 # Handle collisions using character width and collisions map
 # It will return a list with directions where the player can go
