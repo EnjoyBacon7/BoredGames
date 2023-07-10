@@ -14,5 +14,6 @@ zoom = 2
 
 # Debug
 
-debugOverlay = False
+debugOverlay = True
+debugOverlayCollisions = False
 debugMenuFPS = False
