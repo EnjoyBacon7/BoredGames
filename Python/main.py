@@ -20,7 +20,7 @@ def initPygame():
     #pygame.display.set_icon(logo)
     pygame.display.set_caption("Bored Games")
     
-    # create a surface on screen that has the size of 240 x 180
+    # create a surface on screen that has the size of clientSetting resolution
     pygame.display.set_mode((cs.resolution_width,cs.resolution_height))
     window = pygame.display.get_surface()
     return window
