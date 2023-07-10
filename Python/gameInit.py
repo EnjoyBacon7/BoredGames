@@ -16,7 +16,13 @@ class Game:
     collisions: list
     sprites: dict
 
-    fpsClock:float = pygame.time.Clock()
+    fpsClock:float
+
+    zoom_level: int
+
+    # Rendering variables
+    map_cache: list
+    map_cache_factor: int = 1
 
     # Debug variables
     frame_time: float = 0.0
@@ -38,7 +44,9 @@ def gameInit():
         "floorTile": pygame.image.load("Content/Images/floorTile.png").convert_alpha(),
         "player": pygame.image.load("Content/Images/player1.png").convert_alpha(),
     }
+
+    map_cache = map
     
-    game = Game(0, 0, 1, 1, map, collisions, sprites)
+    game = Game(0, 0, 1, 1, map, collisions, sprites,pygame.time.Clock(), 1, map_cache)
 
     return game
