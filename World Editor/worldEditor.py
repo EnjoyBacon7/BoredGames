@@ -13,6 +13,8 @@ def initPygame():
 
 @dataclass
 class World:
+    cameraX: int
+    cameraY: int
     width: int
     height: int
     map: list
@@ -28,7 +30,7 @@ class tileMap:
     sprites: list
 
 def initWorldEditor():
-    world = World(0,0, [[0]], [[0]])
+    world = World(0, 0, 0, 0, [[0]], [[0]])
 
     # Set a tilemap's values here
     myTileMap = tileMap(37, 28, 16, 16, 1, [])
@@ -41,23 +43,6 @@ def initWorldEditor():
             myTileMap.sprites.append(tile)
 
     return world, myTileMap
-
-def worldEditor(window, world, tileMap):
-
-    editTile(world, 0, 0, 1)
-    editTile(world, 1, 0, 2)
-    editTile(world, 2, 0, 3)
-    editTile(world, 0, 1, 4)
-    editTile(world, 1, 1, 5)
-    editTile(world, 2, 1, 6)
-    editTile(world, 0, 2, 7)
-    editTile(world, 1, 2, 8)
-    editTile(world, 2, 2, 9)
-
-    window.fill((255, 255, 255))
-    renderWorld(window, world, tileMap)
-    renderMenu(window, world, tileMap)
-    pygame.display.flip()
 
 def editTile(world, x, y, tile):
     change = False
@@ -81,20 +66,53 @@ def renderWorld(window, world, tileMap):
     for y in range(0, world.height):
         for x in range(0, world.width):
             tile = tileMap.sprites[world.map[y][x]]
-            window.blit(tile, (x * tileMap.tileWidth + x*10, y * tileMap.tileHeight + y*10))
+            window.blit(tile, (x * tileMap.tileWidth + x*10 + world.cameraX, y * tileMap.tileHeight + y*10 + world.cameraY))
 
 
 def renderMenu(window, world, tileMap):
     pass
+
+def handleInput(world):
+    key_states = pygame.key.get_pressed()
+    if(key_states[pygame.K_z]):
+        world.cameraY -= 1
+    if(key_states[pygame.K_s]):
+        world.cameraY += 1
+    if(key_states[pygame.K_q]):
+        world.cameraX -= 1
+    if(key_states[pygame.K_d]):
+        world.cameraX += 1
+
+def worldEditor(window, world, tileMap):
+
+    editTile(world, 0, 0, 1)
+    editTile(world, 1, 0, 2)
+    editTile(world, 2, 0, 3)
+    editTile(world, 0, 1, 4)
+    editTile(world, 1, 1, 5)
+    editTile(world, 2, 1, 6)
+    editTile(world, 0, 2, 7)
+    editTile(world, 1, 2, 8)
+    editTile(world, 2, 2, 9)
+
+    clock = pygame.time.Clock()
+
+    while True:
+        if(pygame.event.get(pygame.QUIT)):
+            pygame.quit()
+
+        handleInput(world)
+
+        window.fill((255, 255, 255))
+        renderWorld(window, world, tileMap)
+        renderMenu(window, world, tileMap)
+        pygame.display.flip()
+        clock.tick(120)
 
 def main():
     window = initPygame()
     world, tileMap = initWorldEditor()
 
     worldEditor(window, world, tileMap)
-
-    while True:
-        if(pygame.event.get(pygame.QUIT)):
-            pygame.quit()
 
 main()
