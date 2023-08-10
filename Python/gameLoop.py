@@ -3,6 +3,7 @@ import time
 
 import config as cfg
 import clientSettings as cs
+import utils as ut
 
 from gameRender import renderGame
 
@@ -11,9 +12,7 @@ def gameLoop(window, game):
     while True:
 
         # Handle events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
+        ut.handleEvents()
 
         # Start frame timer
         start_time = time.perf_counter()
