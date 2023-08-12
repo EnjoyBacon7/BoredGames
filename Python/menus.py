@@ -3,7 +3,7 @@ import time
 
 import clientSettings as cs
 import config as cfg
-import utils as ut
+import utilities as utils
 
 from gameInit import gameInit
 from gameLoop import gameLoop
@@ -25,19 +25,19 @@ def menuInit():
     menuVars = {
         "btnsMM": [
             { 
-                "images" : (scaleImage(pygame.image.load("Content/Images/play_Up.png").convert_alpha(), cs.menu_scale), scaleImage(pygame.image.load("Content/Images/play_Down.png").convert_alpha(), cs.menu_scale)),
+                "images" : (utils.scaleImage(pygame.image.load("Content/Images/play_Up.png").convert_alpha(), cs.menu_scale), utils.scaleImage(pygame.image.load("Content/Images/play_Down.png").convert_alpha(), cs.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.play_x, "x"), percentToPos(cfg.play_y, "y")),
                 "active" : True,
             },
             {
-                "images" : (scaleImage(pygame.image.load("Content/Images/option_Up.png").convert_alpha(), cs.menu_scale), scaleImage(pygame.image.load("Content/Images/option_Down.png").convert_alpha(), cs.menu_scale)),
+                "images" : (utils.scaleImage(pygame.image.load("Content/Images/option_Up.png").convert_alpha(), cs.menu_scale), utils.scaleImage(pygame.image.load("Content/Images/option_Down.png").convert_alpha(), cs.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.option_x, "x"), percentToPos(cfg.option_y, "y")),
                 "active" : True,
             },
             {
-                "images" : (scaleImage(pygame.image.load("Content/Images/quit_Up.png").convert_alpha(), cs.menu_scale), scaleImage(pygame.image.load("Content/Images/quit_Down.png").convert_alpha(), cs.menu_scale)),
+                "images" : (utils.scaleImage(pygame.image.load("Content/Images/quit_Up.png").convert_alpha(), cs.menu_scale), utils.scaleImage(pygame.image.load("Content/Images/quit_Down.png").convert_alpha(), cs.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.quit_x, "x"), percentToPos(cfg.quit_y, "y")),
                 "active" : True,
@@ -46,20 +46,20 @@ def menuInit():
 
         "btnsOM": [
             {
-                "images" : (scaleImage(pygame.image.load("Content/Images/back_Up.png").convert_alpha(), cs.menu_scale), scaleImage(pygame.image.load("Content/Images/back_Down.png").convert_alpha(), cs.menu_scale)),
+                "images" : (utils.scaleImage(pygame.image.load("Content/Images/back_Up.png").convert_alpha(), cs.menu_scale), utils.scaleImage(pygame.image.load("Content/Images/back_Down.png").convert_alpha(), cs.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.back_x, "x"), percentToPos(cfg.back_y, "y")),
                 "active" : True,
             },
             # Mute button is toggle. It has two states, one for muted and one for unmuted.
             {
-                "images" : (scaleImage(pygame.image.load("Content/Images/mute_Up.png").convert_alpha(), cs.menu_scale), scaleImage(pygame.image.load("Content/Images/mute_Down.png").convert_alpha(), cs.menu_scale)),
+                "images" : (utils.scaleImage(pygame.image.load("Content/Images/mute_Up.png").convert_alpha(), cs.menu_scale), utils.scaleImage(pygame.image.load("Content/Images/mute_Down.png").convert_alpha(), cs.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.mute_x, "x"), percentToPos(cfg.mute_y, "y")),
                 "active" : True,
             },
             {
-                "images" : (scaleImage(pygame.image.load("Content/Images/unmute_Up.png").convert_alpha(), cs.menu_scale), scaleImage(pygame.image.load("Content/Images/unMute_Down.png").convert_alpha(), cs.menu_scale)),
+                "images" : (utils.scaleImage(pygame.image.load("Content/Images/unmute_Up.png").convert_alpha(), cs.menu_scale), utils.scaleImage(pygame.image.load("Content/Images/unMute_Down.png").convert_alpha(), cs.menu_scale)),
                 "state"  : 0,
                 "pos"    : (percentToPos(cfg.mute_x, "x"), percentToPos(cfg.mute_y, "y")),
                 "active" : False,
@@ -80,7 +80,7 @@ def menuHandler(window, menuVars):
     # Handle input and render main menu
     while True:
         # Handle events
-        ut.handleEvents()
+        utils.handleEvents()
 
         # Start frame timer
         start_time = time.perf_counter()
@@ -96,8 +96,8 @@ def menuHandler(window, menuVars):
 
         # Handle action
         if (action == "play"):
-            game = gameInit()
-            gameLoop(window, game)
+            game, camera = gameInit()
+            gameLoop(window, game, camera)
         elif (action == "optionMenu"):
             curMenu = "optionMenu"
         elif (action == "mainMenu"):
@@ -175,10 +175,6 @@ def switchMuteBtnStates(menuVars):
 # ---------------------------------------------------------------------
 # Functions useful to all menus
 # ---------------------------------------------------------------------
-
-# Scales pygame image by multiplying width and height by scale
-def scaleImage(image, scale):
-    return pygame.transform.scale(image, (int(image.get_width()*scale), int(image.get_height()*scale)))
 
 # checks if mouse is in bounds of image at x, y position (origin is center of image)
 def mouseInBounds(image, pos):

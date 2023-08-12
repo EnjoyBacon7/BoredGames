@@ -6,31 +6,40 @@ from dataclasses import dataclass
 
 @dataclass
 class Game:
-    cameraX: int
-    cameraY: int
 
     posX: int
     posY: int
 
     level: list
-    tileSet: list
     
     collisions: list
-    sprites: dict
+    playerWidth: int
+    playerHeight: int
 
     fpsClock:float
-
-    zoom_level: int
 
     # Debug variables
     frame_time: float = 0.0
     player_collisions: list = None
     frame_rate: int = 0
 
+@dataclass
+class CameraData:
+
+    cameraX: int
+    cameraY: int
+
+    tileSet: list
+
+    sprites: dict
+
+    zoom_level: int
+
+
 
 def gameInit():
 
-    tileSet = loadTileSet()
+    # Creating a game instance
 
     collisions = []
     tmpRow = []
@@ -42,11 +51,6 @@ def gameInit():
                 tmpRow.append(int(value))
             collisions.append(tmpRow)
             tmpRow = []
-
-    sprites = {
-        "floorTile": pygame.image.load("Content/Images/floorTile.png").convert_alpha(),
-        "player": pygame.image.load("Content/Images/player1.png").convert_alpha(),
-    }
 
     level = []
     tmpRow = []
@@ -60,10 +64,20 @@ def gameInit():
             level.append(tmpRow)
             tmpRow = []
     
-    game = Game(0, 0, 1, 1, level, tileSet, collisions, sprites,pygame.time.Clock(), 1)
 
-    print(len(game.level[0]))
-    return game
+    # Creating a camera instance
+
+    sprites = {
+        "floorTile": pygame.image.load("Content/Images/floorTile.png").convert_alpha(),
+        "player": pygame.image.load("Content/Images/player1.png").convert_alpha(),
+    }
+
+    tileSet = loadTileSet()
+
+
+    game = Game(0, 0, level, collisions, sprites["player"].get_width()/cfg.unit, sprites["player"].get_height()/cfg.unit,pygame.time.Clock())
+    camera = CameraData(0, 0, tileSet, sprites, 0)
+    return game, camera
 
 def loadTileSet():
     tileMap = pygame.image.load("Content/world/tileSet.png").convert_alpha()
