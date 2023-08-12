@@ -1,5 +1,6 @@
 # import the pygame module, so you can use it
 import pygame
+import cProfile
 
 import clientSettings as cs
 import config as cfg
@@ -19,7 +20,7 @@ def initPygame():
     #pygame.display.set_icon(logo)
     pygame.display.set_caption("Bored Games")
     
-    # create a surface on screen that has the size of 240 x 180
+    # create a surface on screen that has the size of clientSetting resolution
     pygame.display.set_mode((cs.resolution_width,cs.resolution_height))
     window = pygame.display.get_surface()
     return window
@@ -28,7 +29,6 @@ def initPygame():
 
 # define a main function
 def main():
-
 
     window = initPygame()
 
@@ -41,4 +41,4 @@ def main():
 # (if you import this as a module then nothing is executed)
 if __name__=="__main__":
     # call the main function
-    main()
+    cProfile.run('main()')

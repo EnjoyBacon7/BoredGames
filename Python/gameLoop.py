@@ -3,19 +3,16 @@ import time
 
 import config as cfg
 import clientSettings as cs
+import utils as ut
 
 from gameRender import renderGame
 
 def gameLoop(window, game):
 
-    fpsClock = pygame.time.Clock()
-
     while True:
 
         # Handle events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
+        ut.handleEvents()
 
         # Start frame timer
         start_time = time.perf_counter()
@@ -23,14 +20,12 @@ def gameLoop(window, game):
         # Menu functions
         checkInput(game)
         renderGame(window, game)
-        fpsClock.tick(cs.fps)
+        game.fpsClock.tick(cs.fps)
 
         # End frame timer
         end_time = time.perf_counter()
-        frame_time = (end_time - start_time) * 1e3
-        game.frame_time = frame_time
-        if(cs.debugFPS): 
-            print(f"Frame time (MM): {frame_time:.2f} milliseconds. FPS: {fpsClock.get_fps():.2f}")
+        game.frame_time = (end_time - start_time) * 1e3
+        game.frame_rate = int(game.fpsClock.get_fps())
 
 # Handle movement and input
 def checkInput(game):
@@ -45,6 +40,14 @@ def checkInput(game):
         game.posY -= movement
     if(key_states[pygame.K_s] and collisions[2] and collisions[3]):
         game.posY += movement
+    
+    # zooming with numpad 1 and 3
+    if(key_states[pygame.K_KP1]):
+        game.zoom_level -= 0.05
+    if(key_states[pygame.K_KP3]):
+        game.zoom_level += 0.05
+    cs.zoom = 2 ** game.zoom_level
+
 
 # Handle collisions using character width and collisions map
 # It will return a list with directions where the player can go
@@ -59,9 +62,10 @@ def getPlayerCollisions(game):
     for corner in playerCorners:
         if(corner[0] < 0 or corner[0] > 50 or corner[1] < 0 or corner[1] > 50):
             collisions.append(False)
-            pass
-        if(game.collisions[int(corner[1])][int(corner[0])] == "2"):
+            continue
+        elif(game.collisions[int(corner[1])][int(corner[0])] == "2"):
             collisions.append(False)
-            pass
+            continue
         collisions.append(True)
+    game.player_collisions = collisions
     return collisions

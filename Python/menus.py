@@ -3,6 +3,7 @@ import time
 
 import clientSettings as cs
 import config as cfg
+import utils as ut
 
 from gameInit import gameInit
 from gameLoop import gameLoop
@@ -79,9 +80,7 @@ def menuHandler(window, menuVars):
     # Handle input and render main menu
     while True:
         # Handle events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
+        ut.handleEvents()
 
         # Start frame timer
         start_time = time.perf_counter()
@@ -109,7 +108,7 @@ def menuHandler(window, menuVars):
         # End frame timer and print frame time
         end_time = time.perf_counter()
         frame_time = (end_time - start_time) * 1e3
-        if (cs.debugFPS):
+        if (cs.debugMenuFPS):
             print(f"Frame time (MM): {frame_time:.2f} milliseconds. FPS: {menuVars['clock'].get_fps():.2f}")
 
 # ---------------------------------------------------------------------
@@ -175,6 +174,7 @@ def switchMuteBtnStates(menuVars):
 
 # ---------------------------------------------------------------------
 # Functions useful to all menus
+# ---------------------------------------------------------------------
 
 # Scales pygame image by multiplying width and height by scale
 def scaleImage(image, scale):
