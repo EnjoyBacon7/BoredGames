@@ -46,11 +46,13 @@ def renderBoard(window, game, camera):
     screen_position = (screen_position[0] + (cs.resolution_width/2), screen_position[1] + (cs.resolution_height/2))
     for i in range(0, len(game.level)):
         for j in range(0, len(game.level[i])):
-            if(game.level[i][j] == 1):
-                screen_x = screen_position[0] + (j * cfg.unit * cs.zoom)
-                screen_y = screen_position[1] + (i * cfg.unit * cs.zoom)
-                scaled_tile = utils.scaleImage(camera.tileSet[game.level[i][j]], cs.zoom)
-                window.blit(scaled_tile, (screen_x, screen_y))
+            curTileNumber = game.level[i][j]
+            screen_x = screen_position[0] + (j * cfg.unit * cs.zoom)
+            screen_y = screen_position[1] + (i * cfg.unit * cs.zoom)
+            if (camera.tileSet_scaled_zoom != cs.zoom):
+                camera.tileSet_scaled[curTileNumber] = utils.scaleImage(camera.tileSet[game.level[i][j]], cs.zoom)
+                camera.tileSet_scaled_zoom = cs.zoom
+            window.blit(camera.tileSet_scaled[curTileNumber], (screen_x, screen_y))
 
 
 def renderPlayer(window, game, camera):

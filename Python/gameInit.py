@@ -12,7 +12,6 @@ class Game:
 
     level: list
     
-    collisions: list
     playerWidth: int
     playerHeight: int
 
@@ -30,6 +29,8 @@ class CameraData:
     cameraY: int
 
     tileSet: list
+    tileSet_scaled: list
+    tileSet_scaled_zoom: list
 
     sprites: dict
 
@@ -40,17 +41,6 @@ class CameraData:
 def gameInit():
 
     # Creating a game instance
-
-    collisions = []
-    tmpRow = []
-    with open("Content/world/collisions.csv") as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        for row in csv_reader:
-            row.pop()
-            for value in row:
-                tmpRow.append(int(value))
-            collisions.append(tmpRow)
-            tmpRow = []
 
     level = []
     tmpRow = []
@@ -73,10 +63,14 @@ def gameInit():
     }
 
     tileSet = loadTileSet()
+    tileSet_scaled = tileSet.copy()
+    tileSet_scaled_zoom = []
+    for tile in range(len(tileSet)):
+        tileSet_scaled_zoom.append(tile)
 
 
-    game = Game(0, 0, level, collisions, sprites["player"].get_width()/cfg.unit, sprites["player"].get_height()/cfg.unit,pygame.time.Clock())
-    camera = CameraData(0, 0, tileSet, sprites, 0)
+    game = Game(0, 0, level, sprites["player"].get_width()/cfg.unit, sprites["player"].get_height()/cfg.unit,pygame.time.Clock())
+    camera = CameraData(0, 0, tileSet, tileSet_scaled, tileSet_scaled_zoom, sprites, 0)
     return game, camera
 
 def loadTileSet():
