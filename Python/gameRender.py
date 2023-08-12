@@ -49,9 +49,9 @@ def renderBoard(window, game, camera):
             curTileNumber = game.level[i][j]
             screen_x = screen_position[0] + (j * cfg.unit * cs.zoom)
             screen_y = screen_position[1] + (i * cfg.unit * cs.zoom)
-            if (camera.tileSet_scaled_zoom != cs.zoom):
+            if (camera.tileSet_scaled_zoom[curTileNumber] != cs.zoom):
                 camera.tileSet_scaled[curTileNumber] = utils.scaleImage(camera.tileSet[game.level[i][j]], cs.zoom)
-                camera.tileSet_scaled_zoom = cs.zoom
+                camera.tileSet_scaled_zoom[curTileNumber] = cs.zoom
             window.blit(camera.tileSet_scaled[curTileNumber], (screen_x, screen_y))
 
 
