@@ -48,7 +48,7 @@ def gameInit():
     with open("Content/world/level.csv") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         for row in csv_reader:
-            row.pop()
+            if(row[len(row) - 1] == ''): row.pop()
             for value in row:
                 tmpRow.append(int(value))
             level.append(tmpRow)
