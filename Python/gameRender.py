@@ -30,7 +30,7 @@ def renderGame(window, game, camera):
 
 def updateCamera(game, camera):
     camera_offset = (game.posX - camera.cameraX, game.posY - camera.cameraY)
-    camera_padding = [x/cfg.padding for x in camera_offset]
+    camera_padding = [x/cfg.padding * cs.zoom for x in camera_offset]
     camera.cameraX += camera_padding[0]
     camera.cameraY += camera_padding[1]
 
