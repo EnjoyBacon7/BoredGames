@@ -11,10 +11,14 @@ def renderGame(window, game, camera):
     # Camera
     updateCamera(game, camera)
 
-    # Render Functions
+    # Updating Functions
+    updateWorldBufs(game, camera)
+    updatePlayerBufs(game, camera)
+
+    # Rendering Functions
     window.fill((230,255, 255))
-    renderBoard(window, game, camera)
-    renderPlayer(window, game, camera)
+    window.blit(camera.world_buffers[0], (0,0))
+    window.blit(camera.players_buffer, (0,0))
 
     # Debug
     if(cs.debugOverlay):
@@ -41,7 +45,8 @@ def updateCamera(game, camera):
 # get screen coords using player coords and camera coords: coordsToPixels(x_position - x_camera, y_position - y_camera)
 # change origin to center of screen: screen_position = (x_screen_position + (cs.resolution_width/2), y_screen_position + (cs.resolution_height/2))
 
-def renderBoard(window, game, camera):
+def updateWorldBufs(game, camera):
+    camera.world_buffers[0].fill((0,0,0,0))
     screen_position = coordsToPixels(0 - camera.cameraX, 0 - camera.cameraY)
     screen_position = (screen_position[0] + (cs.resolution_width/2), screen_position[1] + (cs.resolution_height/2))
     for i in range(0, len(game.level)):
@@ -54,17 +59,18 @@ def renderBoard(window, game, camera):
                 if (camera.tileSet_scaled_zoom[curTileNumber] != cs.zoom):
                     camera.tileSet_scaled[curTileNumber] = utils.scaleImage(camera.tileSet[game.level[i][j]], cs.zoom)
                     camera.tileSet_scaled_zoom[curTileNumber] = cs.zoom
-                window.blit(camera.tileSet_scaled[curTileNumber], (screen_x, screen_y))
+                camera.world_buffers[0].blit(camera.tileSet_scaled[curTileNumber], (screen_x, screen_y))
 
 
-def renderPlayer(window, game, camera):
+def updatePlayerBufs(game, camera):
+    camera.players_buffer.fill((0,0,0,0))
     scaled_player = utils.scaleImage(camera.sprites["player"], cs.zoom)
     # Get player position on screen
     screen_position = coordsToPixels(game.posX - camera.cameraX, game.posY - camera.cameraY)
     # change screen position to center of screen
     screen_position = (screen_position[0] + (cs.resolution_width/2), screen_position[1] + (cs.resolution_height/2))
     # blit player to screen
-    window.blit(scaled_player, (screen_position))
+    camera.players_buffer.blit(scaled_player, (screen_position))
 
 def coordsToPixels(x, y):
     return (x * cfg.unit * cs.zoom, y * cfg.unit * cs.zoom)

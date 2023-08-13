@@ -1,6 +1,7 @@
 import pygame
 import csv
 import config as cfg
+import clientSettings as cs
 
 from dataclasses import dataclass
 
@@ -36,6 +37,10 @@ class CameraData:
 
     zoom_level: int
 
+    # Buffers
+    world_buffers: list
+    players_buffer: list
+
 
 
 def gameInit():
@@ -68,9 +73,14 @@ def gameInit():
     for tile in range(len(tileSet)):
         tileSet_scaled_zoom.append(tile)
 
+    ground_buffer = pygame.Surface((cs.resolution_width, cs.resolution_height), pygame.SRCALPHA)
+    building_buffer = pygame.Surface((cs.resolution_width, cs.resolution_height), pygame.SRCALPHA)
+    world_buffers = [ground_buffer, building_buffer]
+
+    players_buffer = pygame.Surface((cs.resolution_width, cs.resolution_height), pygame.SRCALPHA)
 
     game = Game(0, 0, level, sprites["player"].get_width()/cfg.unit, sprites["player"].get_height()/cfg.unit,pygame.time.Clock())
-    camera = CameraData(0, 0, tileSet, tileSet_scaled, tileSet_scaled_zoom, sprites, 0)
+    camera = CameraData(0, 0, tileSet, tileSet_scaled, tileSet_scaled_zoom, sprites, 0, world_buffers, players_buffer)
     return game, camera
 
 def loadTileSet():
