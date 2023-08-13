@@ -2,18 +2,19 @@ import pygame
 
 import clientSettings as cs
 import config as cfg
+import utilities as utils
 
 from debug import debugRender
 
-def renderGame(window, game):
+def renderGame(window, game, camera):
 
     # Camera
-    updateCamera(game)
+    updateCamera(game, camera)
 
     # Render Functions
     window.fill((230,255, 255))
-    renderBoard(window, game)
-    renderPlayer(window, game)
+    renderBoard(window, game, camera)
+    renderPlayer(window, game, camera)
 
     # Debug
     if(cs.debugOverlay):
@@ -27,11 +28,11 @@ def renderGame(window, game):
 # get difference between player coords and camera coords: camera_offset = (x_position - x_camera, y_position - y_camera)
 # apply function to camera offset: camera_padding = [f(padding) for x in camera_offset]
 
-def updateCamera(game):
-    camera_offset = (game.posX - game.cameraX, game.posY - game.cameraY)
-    camera_padding = [x/cfg.padding for x in camera_offset]
-    game.cameraX += camera_padding[0]
-    game.cameraY += camera_padding[1]
+def updateCamera(game, camera):
+    camera_offset = (game.posX - camera.cameraX, game.posY - camera.cameraY)
+    camera_padding = [x/cfg.padding * cs.zoom for x in camera_offset]
+    camera.cameraX += camera_padding[0]
+    camera.cameraY += camera_padding[1]
 
 
 # ---------------------------------------------------------------------
@@ -40,28 +41,26 @@ def updateCamera(game):
 # get screen coords using player coords and camera coords: coordsToPixels(x_position - x_camera, y_position - y_camera)
 # change origin to center of screen: screen_position = (x_screen_position + (cs.resolution_width/2), y_screen_position + (cs.resolution_height/2))
 
-def renderBoard(window, game):
-
-    # WIP
-    # map_view = pygame.Rect(game.cameraX, game.cameraY, 1/cs.zoom * 16, 1/cs.zoom * 16)
-    # sub_img = game.map.subsurface(map_view)
-    # scaled_view = pygame.transform.scale(sub_img, (cs.resolution_width, cs.resolution_height))
-
-    # window.blit(scaled_view, coordsToPixels(0, 0))
-
-    if(game.map_cache_factor != cs.zoom):
-        game.map_cache = pygame.transform.scale(game.map, (cs.zoom * 50 * 16, cs.zoom * 50 * 16))
-        game.map_cache_factor = cs.zoom
-    scaled_map = game.map_cache
-    screen_position = coordsToPixels(0 - game.cameraX, 0 - game.cameraY)
+def renderBoard(window, game, camera):
+    screen_position = coordsToPixels(0 - camera.cameraX, 0 - camera.cameraY)
     screen_position = (screen_position[0] + (cs.resolution_width/2), screen_position[1] + (cs.resolution_height/2))
-    window.blit(scaled_map, (screen_position))
+    for i in range(0, len(game.level)):
+        for j in range(0, len(game.level[i])):
+            curTileNumber = game.level[i][j]
+            screen_x = screen_position[0] + (j * cfg.unit * cs.zoom)
+            screen_y = screen_position[1] + (i * cfg.unit * cs.zoom)
+
+            if(screen_x > 0 - cfg.unit * cs.zoom and screen_x < cs.resolution_width and screen_y > 0 - cfg.unit * cs.zoom and screen_y < cs.resolution_height):
+                if (camera.tileSet_scaled_zoom[curTileNumber] != cs.zoom):
+                    camera.tileSet_scaled[curTileNumber] = utils.scaleImage(camera.tileSet[game.level[i][j]], cs.zoom)
+                    camera.tileSet_scaled_zoom[curTileNumber] = cs.zoom
+                window.blit(camera.tileSet_scaled[curTileNumber], (screen_x, screen_y))
 
 
-def renderPlayer(window, game):
-    scaled_player = pygame.transform.scale(game.sprites["player"], (cs.zoom * 8, cs.zoom * 16))
+def renderPlayer(window, game, camera):
+    scaled_player = utils.scaleImage(camera.sprites["player"], cs.zoom)
     # Get player position on screen
-    screen_position = coordsToPixels(game.posX - game.cameraX, game.posY - game.cameraY)
+    screen_position = coordsToPixels(game.posX - camera.cameraX, game.posY - camera.cameraY)
     # change screen position to center of screen
     screen_position = (screen_position[0] + (cs.resolution_width/2), screen_position[1] + (cs.resolution_height/2))
     # blit player to screen

@@ -3,23 +3,23 @@ import time
 
 import config as cfg
 import clientSettings as cs
-import utils as ut
+import utilities as utils
 
 from gameRender import renderGame
 
-def gameLoop(window, game):
+def gameLoop(window, game, camera):
 
     while True:
 
         # Handle events
-        ut.handleEvents()
+        utils.handleEvents()
 
         # Start frame timer
         start_time = time.perf_counter()
 
         # Menu functions
-        checkInput(game)
-        renderGame(window, game)
+        checkInput(game, camera)
+        renderGame(window, game, camera)
         game.fpsClock.tick(cs.fps)
 
         # End frame timer
@@ -28,7 +28,7 @@ def gameLoop(window, game):
         game.frame_rate = int(game.fpsClock.get_fps())
 
 # Handle movement and input
-def checkInput(game):
+def checkInput(game, camera):
     movement = 0.1 * (game.frame_time * 0.1)
     key_states = pygame.key.get_pressed()
     collisions = getPlayerCollisions(game)
@@ -43,10 +43,10 @@ def checkInput(game):
     
     # zooming with numpad 1 and 3
     if(key_states[pygame.K_KP1]):
-        game.zoom_level -= 0.05
+        camera.zoom_level -= 0.05
     if(key_states[pygame.K_KP3]):
-        game.zoom_level += 0.05
-    cs.zoom = 2 ** game.zoom_level
+        camera.zoom_level += 0.05
+    cs.zoom = 2 ** camera.zoom_level
 
 
 # Handle collisions using character width and collisions map
@@ -56,14 +56,14 @@ def getPlayerCollisions(game):
     collisions = []
     playerCorners = [
         (game.posX, game.posY),
-        (game.posX + game.sprites["player"].get_width()/cfg.unit, game.posY),
-        (game.posX, game.posY + game.sprites["player"].get_height()/cfg.unit),
-        (game.posX + game.sprites["player"].get_width()/cfg.unit, game.posY + game.sprites["player"].get_height()/cfg.unit)]
+        (game.posX + game.playerWidth, game.posY),
+        (game.posX, game.posY + game.playerHeight),
+        (game.posX + game.playerWidth, game.posY + game.playerHeight)]
     for corner in playerCorners:
         if(corner[0] < 0 or corner[0] > 50 or corner[1] < 0 or corner[1] > 50):
             collisions.append(False)
             continue
-        elif(game.collisions[int(corner[1])][int(corner[0])] == "2"):
+        elif(game.level[int(corner[1])][int(corner[0])] == 2):
             collisions.append(False)
             continue
         collisions.append(True)
